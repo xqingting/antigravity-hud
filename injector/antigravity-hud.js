@@ -121,11 +121,14 @@
     }
 
     const g = window.__antigravityGlobalStats || loadCachedGlobalStats();
-    const bg = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)';
-    const border = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+    // 高质感高对比度明暗配色（彻底解决浅色模式下泛白隐形问题）
+    const bg = isDark ? 'rgba(24, 24, 27, 0.96)' : '#ffffff';
+    const border = isDark ? 'rgba(255, 255, 255, 0.12)' : '#e5e7eb';
     const textMain = isDark ? '#f3f4f6' : '#111827';
     const textSub = isDark ? '#9ca3af' : '#6b7280';
-    const cardBg = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(255, 255, 255, 0.7)';
+    const cardBg = isDark ? 'rgba(255, 255, 255, 0.04)' : '#f9fafb';
+    const cardBorder = isDark ? 'rgba(255, 255, 255, 0.08)' : '#e5e7eb';
+    const cardShadow = isDark ? '0 12px 32px rgba(0, 0, 0, 0.35)' : '0 4px 16px rgba(0, 0, 0, 0.06)';
 
     card.style.cssText = `
       width: 100%;
@@ -138,8 +141,8 @@
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       user-select: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-      backdrop-filter: blur(8px);
+      box-shadow: ${cardShadow};
+      backdrop-filter: blur(12px);
       transition: all 0.2s ease;
     `;
 
@@ -155,27 +158,27 @@
       '  <span style="font-size:11px; color:' + textSub + ';">输入 $0.75 · 缓存 $0.075 · 输出 $3.75 / 1M</span>',
       '</div>',
       '<div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:8px;">',
-      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + border + ';">',
+      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + cardBorder + ';">',
       '    <div style="font-size:11px; color:' + textSub + '; margin-bottom:4px;">累计总对话数</div>',
       '    <div style="font-size:17px; font-weight:700; color:' + textMain + ';">' + g.totalConvs + '</div>',
       '    <div style="font-size:10px; color:' + textSub + '; margin-top:2px;">近 7 天 ' + g.weekConvs + ' 个</div>',
       '  </div>',
-      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + border + ';">',
+      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + cardBorder + ';">',
       '    <div style="font-size:11px; color:' + textSub + '; margin-bottom:4px;">今日 Token 消耗</div>',
       '    <div style="font-size:17px; font-weight:700; color:#3b82f6;">' + formatTokens(g.todayTokens) + '</div>',
       '    <div style="font-size:10px; color:' + textSub + '; margin-top:2px;">入 ' + formatTokens(g.todayInTokens) + ' · 出 ' + formatTokens(g.todayOutTokens) + '</div>',
       '  </div>',
-      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + border + ';">',
+      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + cardBorder + ';">',
       '    <div style="font-size:11px; color:' + textSub + '; margin-bottom:4px;">近 7 天消耗量</div>',
       '    <div style="font-size:17px; font-weight:700; color:#8b5cf6;">' + formatTokens(g.weekTokens) + '</div>',
       '    <div style="font-size:10px; color:' + textSub + '; margin-top:2px;">活跃 ' + g.weekConvs + ' 轮会话</div>',
       '  </div>',
-      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + border + ';">',
+      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + cardBorder + ';">',
       '    <div style="font-size:11px; color:' + textSub + '; margin-bottom:4px;">历史累计总消耗</div>',
       '    <div style="font-size:17px; font-weight:700; color:' + textMain + ';">' + formatTokens(g.allTimeTokens) + '</div>',
       '    <div style="font-size:10px; color:' + textSub + '; margin-top:2px;">入 ' + formatTokens(g.allTimeInTokens) + ' · 出 ' + formatTokens(g.allTimeOutTokens) + '</div>',
       '  </div>',
-      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + border + ';">',
+      '  <div style="background:' + cardBg + '; padding:10px 10px; border-radius:10px; border:1px solid ' + cardBorder + ';">',
       '    <div style="font-size:11px; color:' + textSub + '; margin-bottom:4px;">等价 API 额度</div>',
       '    <div style="font-size:17px; font-weight:700; color:#10b981;">$' + costUSD + '</div>',
       '    <div style="font-size:10px; color:' + textSub + '; margin-top:2px;">今日 $' + todayUSD + ' · 缓存省 ~90%</div>',
@@ -183,13 +186,15 @@
       '</div>'
     ].join('');
 
-    if (newHtml !== lastCardHtml) {
+    // 直接与元素当前实际 innerHTML 比对，杜绝变量脱节导致空白
+    if (card.innerHTML !== newHtml) {
       card.innerHTML = newHtml;
-      lastCardHtml = newHtml;
     }
 
-    if (box.parentElement && card.parentElement !== box.parentElement) {
-      box.parentElement.insertBefore(card, box);
+    if (box.parentElement) {
+      if (card.parentElement !== box.parentElement || card.nextElementSibling !== box) {
+        box.parentElement.insertBefore(card, box);
+      }
     }
   }
 
@@ -315,7 +320,7 @@
 
     if (isNewConv) {
       const card = document.getElementById('antigravity-hud-card');
-      if (!card || !box.parentElement || !box.parentElement.contains(card)) {
+      if (!card || !box.parentElement || !box.parentElement.contains(card) || card.nextElementSibling !== box || !card.innerHTML) {
         render();
       }
     } else {
