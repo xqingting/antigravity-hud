@@ -1,0 +1,35 @@
+{
+  "name": "antigravity-hud",
+  "version": "1.0.0",
+  "description": "Real-time Metrics HUD & 5-Column Token Dashboard for Google Antigravity Desktop Client (0-Patch, CDP Hot Inject, 0ms Local Cache)",
+  "type": "module",
+  "main": "injector/live_inject.js",
+  "scripts": {
+    "start": "./start.sh",
+    "stop": "./stop.sh",
+    "status": "./status.sh",
+    "inject": "node injector/live_inject.js"
+  },
+  "keywords": [
+    "antigravity",
+    "hud",
+    "metrics",
+    "token-counter",
+    "cdp",
+    "electron",
+    "devtools",
+    "gemini",
+    "tps",
+    "dashboard"
+  ],
+  "author": "xqingting",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xqingting/antigravity-hud.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xqingting/antigravity-hud/issues"
+  },
+  "homepage": "https://github.com/xqingting/antigravity-hud#readme"
+}
