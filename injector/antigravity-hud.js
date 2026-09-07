@@ -51,6 +51,19 @@
   window.__antigravityGlobalStats = window.__antigravityGlobalStats || loadCachedGlobalStats();
   window.__ANTIGRAVITY_HUD_ACTIVE__ = true;
 
+  // 自动彻底隐藏并清除旧版 antigravity-metrics-bar 残留，杜绝双底栏重叠
+  try {
+    let cleanStyle = document.getElementById('antigravity-hud-cleanup-style');
+    if (!cleanStyle) {
+      cleanStyle = document.createElement('style');
+      cleanStyle.id = 'antigravity-hud-cleanup-style';
+      cleanStyle.textContent = '#antigravity-metrics-bar, #antigravity-global-stats-card { display: none !important; height: 0 !important; overflow: hidden !important; opacity: 0 !important; pointer-events: none !important; }';
+      document.head.appendChild(cleanStyle);
+    }
+    const legacyBar = document.getElementById('antigravity-metrics-bar');
+    if (legacyBar) legacyBar.remove();
+  } catch (e) {}
+
   let lastCardHtml = '';
   let lastBarHtml = '';
   let isUpdatingDom = false;
